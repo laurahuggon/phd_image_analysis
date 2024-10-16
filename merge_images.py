@@ -60,7 +60,8 @@ for image_key, channels in image_pairs.items():
             marker_image = cv2.cvtColor(marker_image, cv2.COLOR_RGBA2GRAY)
 
         # Ensure both images are the same shape
-        assert dapi_image.shape != marker_image.shape, ValueError(f"DAPI and marker images for {image_key} must have the same dimensions.")
+        if dapi_image.shape != marker_image.shape:
+            raise ValueError(f"DAPI and marker images for {image_key} must have the same dimensions.")
 
         # Initialise a new array for the merged image with only 2 channels
         # Create a new NumPy array filled with zeros with the same height (dapi_image.shape[0]) and width (dapi_image.shape[1]) as the DAPI image with three colour channels
