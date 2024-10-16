@@ -1,0 +1,4 @@
+numpy
+imageio
+opencv-python
+h5py
