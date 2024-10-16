@@ -46,10 +46,12 @@ for image_key, channels in image_pairs.items():
         marker_image = imageio.imread(channels['tritc']) # channels['tritc'] retrieves the file path to the marker image
 
         # Ensure DAPI is a single-channel image (grayscale)
-        if dapi_image.ndim == 3 and dapi_image.shape[2] == 3:  # RGB image
-            dapi_image = cv2.cvtColor(dapi_image, cv2.COLOR_RGB2GRAY)
-        elif dapi_image.ndim == 3 and dapi_image.shape[2] == 4:  # RGBA image
-            dapi_image = cv2.cvtColor(dapi_image, cv2.COLOR_RGBA2GRAY)
+        if dapi_image.ndim == 3 and dapi_image.shape[2] == 3:  # Check if image has 3 dimensions (height, width and channels)
+                                                               # Check if the third dimension (channels) has a size of 3, which indicates an RGB image
+            dapi_image = cv2.cvtColor(dapi_image, cv2.COLOR_RGB2GRAY)   # Convert RGB image to grayscale
+        elif dapi_image.ndim == 3 and dapi_image.shape[2] == 4:  # Check if image has 3 dimensions (height, width and channels)
+                                                                 # Check if the third dimension (channels) has a size of 4, which indicates an RGBA image
+            dapi_image = cv2.cvtColor(dapi_image, cv2.COLOR_RGBA2GRAY)  # Convert RGBA image to grayscale
 
         # Ensure marker is a single-channel image (grayscale)
         if marker_image.ndim == 3 and marker_image.shape[2] == 3:  # RGB image
@@ -58,10 +60,9 @@ for image_key, channels in image_pairs.items():
             marker_image = cv2.cvtColor(marker_image, cv2.COLOR_RGBA2GRAY)
 
         # Ensure both images are the same shape
-        if dapi_image.shape != marker_image.shape:
-            raise ValueError(f"DAPI and marker images for {image_key} must have the same dimensions.")
+        assert dapi_image.shape != marker_image.shape, ValueError(f"DAPI and marker images for {image_key} must have the same dimensions.")
 
-        # Initialize a new array for the merged image with only 2 channels
+        # Initialise a new array for the merged image with only 2 channels
         # Create a new NumPy array filled with zeros with the same height (dapi_image.shape[0]) and width (dapi_image.shape[1]) as the DAPI image with three colour channels
         merged_image = np.zeros((dapi_image.shape[0], dapi_image.shape[1], 3), dtype=np.uint8)
 
