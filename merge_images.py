@@ -15,7 +15,7 @@ os.makedirs(out_dir, exist_ok=True)
 # Match the prefix "NEUN_BTUB_MAP2_DIFF" followed by any number of characters (.*) and an underscore (_)
 # This is followed by any number of characters (.*) and an underscore (_)
 # This is followed by exactly four digits (\d{4}) and an underscore (_)
-# This is followed by either dapi or tritc and ends in .JPG (the backslash escapes the dot to match a literal period
+# This is followed by either dapi or tritc and ends in .JPG (the backslash escapes the dot to match a literal period)
 pattern = r'NEUN_BTUB_MAP2_DIFF(.*)_(.*)_(\d{4})_(dapi|tritc)\.JPG'
 
 # Dictionary to store the matched pairs of images - the keys will be unique identifiers from the filenames and the values will be another dictionary containing paths to the corresponding images
